@@ -56,18 +56,20 @@ class TwitterBot(StreamListener):
             if data[REPLY_TO_STATUS_ID]:
                 return
 
+            print('New tweet, current count:', self.received_tweet_count)
+
             # If received enough than retweet it
             if self.received_tweet_count == TWEET_INTERVAL:
                 raw_tweet_url = TWITTER_URL + data[USER][SCREEN_NAME] + STATUS_PATH + data[ID_STRING]
                 print(
-                    '\n\n== New Tweet Received @', datetime.now(),
+                    '\n== New Tweet Received @', datetime.now(),
                     'Tweet URL:',  raw_tweet_url, '=='
                 )
 
                 time.sleep(RETWEET_WAIT_PERIOD)
                 self.twitter_api.retweet(data[ID])
 
-                print('\n\n== Successfully retweeted! ==')
+                print('\n== Successfully retweeted! ==')
 
                 self.received_tweet_count = 0
 
